@@ -1,0 +1,52 @@
+<html>
+
+<head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!-- <link href="cards.css" rel="stylesheet" id="login-css"> -->
+    <link href="{{url_for('static',filename='cards.css')}}" rel="stylesheet" id="login-css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="container upper">
+        <h1 class="deckname">Deck : {{deck_name}}</h1>
+    </div>
+    <div class="container middle">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card card-flip h-100">
+                    <div class="card-front text-white bg-dark">
+                        <div class="card-body">
+                            <h4 class="card-title">1</h4>
+                            <h5>aaaaaaaaaaaaaaaaaaaaaaaaaa</h5>
+                            <br>
+                            <br>
+                            <br>
+                            <h1 class="card-title">{{card_word}}</h1>
+                        </div>
+                    </div>
+                    <div class="card-back bg-white">
+                        <div class="card-body">
+                            <h4 class="card-title">1</h4>
+                            <br>
+                            <br>
+                            <br>
+                            <h1 class="card-title">{{card_word}}</h1>
+                            <h1 class="card-title">{{card_ans}}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h2>Review :</h2><br><br>
+                <button type="button" class="button btn btn-primary button-review"><a href="/deck/{{userName}}/{{deck_no}}/review/{{card_no}}/easy/next/{{card_no+1}}">EASY</a></button>
+                <button type="button" class="button btn btn-primary button-edit"><a href="/deck/{{userName}}/{{deck_no}}/review/{{card_no}}/medium/next/{{card_no+1}}">MEDIUM</a></button>
+                <button type="button" class="button btn btn-primary button-delete"><a href="/deck/{{userName}}/{{deck_no}}/review/{{card_no}}/difficult/next/{{card_no+1}}">DIFFICULT</a></button>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
