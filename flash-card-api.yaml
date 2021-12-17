@@ -1,7 +1,7 @@
 openapi: 3.0.0
 servers:
   # Added by API Auto Mocking Plugin
-  - url: 0.0.0.0:8000
+  - url: http://127.0.0.1:8080/
 info:
   description: Flash Card API
   version: "1.0.0"
@@ -14,88 +14,77 @@ tags:
   - name: users
     description: Operations available to regular users
 paths:
-  /user/{username}:
+  /api/deck/{deck_name}:
     parameters:
       - in: path
-        name: username
-        description: pass the username
+        name: deck_name
+        description: pass the deck name
         required: true
         schema:
           type: string
     get:
       tags:
         - developers
-        - users
-      summary: searches inventory
-      operationId: searchInventory
+      summary: returns info about a deck
       description: |
         By passing in the appropriate options, you can search for
         available inventory in the system
       responses:
         '200':
           description: search results matching criteria
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/InventoryItem'
+          
         '400':
           description: bad input parameter
+          
+        '404':
+          description: Deck not found
+
+    delete:
+      tags:
+        - developers
+      summary: deletes a deck
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+  /api/deck:
     post:
       tags:
-        - users
-      summary: adds an inventory item
-      operationId: addInventory
-      description: Adds an item to the system
+        - developers
+      summary: returns info about a deck
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
       responses:
-        '201':
-          description: item created
+        '200':
+          description: search results matching criteria
+          
         '400':
-          description: 'invalid input, object invalid'
-        '409':
-          description: an existing item already exists
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InventoryItem'
-        description: Inventory item to add
-components:
-  schemas:
-    InventoryItem:
-      type: object
-      required:
-        - id
-        - name
-        - manufacturer
-        - releaseDate
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: d290f1ee-6c54-4b01-90e6-d701748f0851
-        name:
-          type: string
-          example: Widget Adapter
-        releaseDate:
-          type: string
-          format: date-time
-          example: '2016-08-29T09:12:33.001Z'
-        manufacturer:
-          $ref: '#/components/schemas/Manufacturer'
-    Manufacturer:
-      required:
-        - name
-      properties:
-        name:
-          type: string
-          example: ACME Corporation
-        homePage:
-          type: string
-          format: url
-          example: 'https://www.acme-corp.com'
-        phone:
-          type: string
-          example: 408-867-5309
-      type: object
+              type: object
+              properties:
+                deck_name:
+                  type: string
+                number_of_cards:
+                  type: integer
+                  format: int64
+        description: order placed for purchasing the pet
+        required: true
+
+

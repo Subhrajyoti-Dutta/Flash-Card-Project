@@ -8,8 +8,8 @@ class Config():
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class LocalDevelopmentConfig(Config):
-	# DB_DIR = os.path.join(basedir, '../db_directory')
-	SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, '../db_directory', 'testdb.sqlite3')
+	DB_DIR = os.path.join(basedir, '../db_directory')
+	SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(DB_DIR, 'testdb.sqlite3')
 	DEBUG = True
 
 class ProductionConfig(Config):

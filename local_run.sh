@@ -10,7 +10,7 @@ then
 	echo "Enabling virtual env"
 else
 	echo "No Virtual env. Please run setup.sh first"
-	exit N
+	exit 1
 fi
 
 #Activatimg virtual env
