@@ -11,7 +11,6 @@ import requests
 import datetime
 
 
-
 class DeckListAPI(Resource):
 	def get(self):
 		decks = Decks.query.all()
@@ -30,7 +29,7 @@ class DeckListAPI(Resource):
 	def post(self):
 
 		request = reqparse.RequestParser()
-		request.add_argument("card_word")
+		request.add_argument("deck_name")
 
 		args = request.parse_args()
 
@@ -218,6 +217,8 @@ class CardAPI(Resource):
 
 class UserListAPI(Resource):
 	def get(self):
+		# help(app)
+
 		users = Users.query.all()
 		return {
 			"number_of_users" : len(users),

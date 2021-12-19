@@ -14,18 +14,10 @@ tags:
   - name: users
     description: Operations available to regular users
 paths:
-  /api/deck/{deck_name}:
-    parameters:
-      - in: path
-        name: deck_name
-        description: pass the deck name
-        required: true
-        schema:
-          type: string
+  /api/deck:
     get:
       tags:
         - developers
-      summary: returns info about a deck
       description: |
         By passing in the appropriate options, you can search for
         available inventory in the system
@@ -38,29 +30,9 @@ paths:
           
         '404':
           description: Deck not found
-
-    delete:
-      tags:
-        - developers
-      summary: deletes a deck
-      description: |
-        By passing in the appropriate options, you can delete
-        a deck in the system
-        
-      responses:
-        '200':
-          description: search results matching criteria
-          
-        '400':
-          description: bad input parameter
-          
-        '404':
-          description: Deck not found
-  /api/deck:
     post:
       tags:
         - developers
-      summary: returns info about a deck
       description: |
         By passing in the appropriate options, you can search for
         available inventory in the system
@@ -81,10 +53,424 @@ paths:
               properties:
                 deck_name:
                   type: string
-                number_of_cards:
-                  type: integer
-                  format: int64
         description: order placed for purchasing the pet
         required: true
 
 
+
+  /api/deck/{deck_name}:
+    parameters:
+      - in: path
+        name: deck_name
+        description: pass the deck name
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+
+    delete:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+    post:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                card_word:
+                  type: string
+                card_ans:
+                  type: string
+        description: order placed for purchasing the pet
+        required: true
+
+
+  /api/deck/{deck_name}/card/{card_no}:
+    parameters:
+      - in: path
+        name: deck_name
+        description: pass the deck name
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: card_no
+        description: pass the card number
+        required: true
+        schema:
+          type: integer
+  
+    get:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+    delete:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+    put:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+  /api/user:
+    get:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+    post:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+  /api/user/{user_id}:
+    parameters:
+      - in: path
+        name: user_id
+        description: pass the user ID
+        required: true
+        schema:
+          type: string
+  
+    get:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+    
+    delete:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+    
+    put:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+    
+    post:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+      
+  /api/user/{user_id}/deck/{deck_name}:
+    parameters:
+      - in: path
+        name: user_id
+        description: pass the user ID
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: deck_name
+        description: pass the user ID
+        required: true
+        schema:
+          type: string
+  
+    get:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+    
+    delete:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+    
+    put:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+    
+    post:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+      
+      
+  /api/user/{user_id}/deck/{deck_name}/card/{card_no}:
+    parameters:
+      - in: path
+        name: user_id
+        description: pass the user ID
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: deck_name
+        description: pass the user ID
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: card_no
+        description: pass the user ID
+        required: true
+        schema:
+          type: integer
+  
+    get:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+    
+    delete:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+    
+    put:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+    
+    post:
+      tags:
+        - developers
+      description: |
+        By passing in the appropriate options, you can delete
+        a deck in the system
+        
+      responses:
+        '200':
+          description: search results matching criteria
+          
+        '400':
+          description: bad input parameter
+          
+        '404':
+          description: Deck not found
+      
