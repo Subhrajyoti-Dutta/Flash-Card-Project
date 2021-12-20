@@ -27,7 +27,6 @@ class DeckListAPI(Resource):
 		}, 200
 
 	def post(self):
-
 		request = reqparse.RequestParser()
 		request.add_argument("deck_name")
 
@@ -161,7 +160,26 @@ class CardAPI(Resource):
 			"card_word" : card.card_word,
 			"card_ans" : card.card_ans
 		}, 200
+	def delete(self, deck_name, card_no):
+		deck = DeckList.get(deck_name)
+		delete_card = deck.query.filter_by(card_no=card_no).first()
 
+		if delete_card is None:
+			raise CardError(
+				status_code = 404,
+				error_code = "CE1001"
+			)
+
+		db.session.delete(delete_card)
+		db.session.commit()
+
+		return {
+			"task" : "Successful",
+			"deck_name" : deck_name,
+			"deleted_card_no" : card_no,
+			"deleted_card_word" : delete_card.card_word,
+			"deleted_card_ans" : delete_card.card_ans
+		}, 200
 	def put(self, deck_name, card_no):
 		request = reqparse.RequestParser()
 		request.add_argument("card_word")
@@ -194,31 +212,10 @@ class CardAPI(Resource):
 			"card_ans" : card_ans
 		}, 200
 
-	def delete(self, deck_name, card_no):
-		deck = DeckList.get(deck_name)
-		delete_card = deck.query.filter_by(card_no=card_no).first()
-
-		if delete_card is None:
-			raise CardError(
-				status_code = 404,
-				error_code = "CE1001"
-			)
-
-		db.session.delete(delete_card)
-		db.session.commit()
-
-		return {
-			"task" : "Successful",
-			"deck_name" : deck_name,
-			"deleted_card_no" : card_no,
-			"deleted_card_word" : delete_card.card_word,
-			"deleted_card_ans" : delete_card.card_ans
-		}, 200
+	
 
 class UserListAPI(Resource):
 	def get(self):
-		# help(app)
-
 		users = Users.query.all()
 		return {
 			"number_of_users" : len(users),
@@ -231,6 +228,8 @@ class UserListAPI(Resource):
 				for user in users
 			]
 		}, 200
+	def post(self):
+		pass
 
 class UserAPI(Resource):
 	def get(self, user_id):
@@ -358,6 +357,4 @@ class UserDataAPI(Resource):
 	def delete(self, user_id, deck_name, card_no):
 		pass
 	def put(self, user_id, deck_name, card_no):
-		pass
-	def post(self, user_id, deck_name, card_no):
 		pass

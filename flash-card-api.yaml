@@ -191,6 +191,18 @@ paths:
           
         '404':
           description: Deck not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                card_word:
+                  type: string
+                card_ans:
+                  type: string
+        description: order placed for purchasing the pet
+        required: true
   /api/user:
     get:
       tags:
@@ -224,6 +236,20 @@ paths:
           
         '404':
           description: Deck not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                user_id:
+                  type: string
+                user_pwd:
+                  type: string
+        description: order placed for purchasing the pet
+        required: true
   /api/user/{user_id}:
     parameters:
       - in: path
@@ -283,7 +309,16 @@ paths:
           
         '404':
           description: Deck not found
-    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+        description: order placed for purchasing the pet
+        required: true
     post:
       tags:
         - developers
@@ -300,6 +335,18 @@ paths:
           
         '404':
           description: Deck not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deck_no:
+                  type: string
+                last_reviewed:
+                  type: string
+        description: order placed for purchasing the pet
+        required: true
       
   /api/user/{user_id}/deck/{deck_name}:
     parameters:
@@ -366,6 +413,18 @@ paths:
           
         '404':
           description: Deck not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deck_no:
+                  type: string
+                last_reviewed:
+                  type: string
+        description: order placed for purchasing the pet
+        required: true
     
     post:
       tags:
@@ -383,6 +442,18 @@ paths:
           
         '404':
           description: Deck not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                card_no:
+                  type: string
+                difficulty:
+                  type: integer
+        description: order placed for purchasing the pet
+        required: true
       
       
   /api/user/{user_id}/deck/{deck_name}/card/{card_no}:
@@ -456,21 +527,15 @@ paths:
           
         '404':
           description: Deck not found
-    
-    post:
-      tags:
-        - developers
-      description: |
-        By passing in the appropriate options, you can delete
-        a deck in the system
-        
-      responses:
-        '200':
-          description: search results matching criteria
-          
-        '400':
-          description: bad input parameter
-          
-        '404':
-          description: Deck not found
-      
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                card_no:
+                  type: string
+                difficulty:
+                  type: integer
+        description: order placed for purchasing the pet
+        required: true

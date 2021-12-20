@@ -19,10 +19,13 @@ from application.controllers import *
 
 from application.api import *
 
-api.add_resource(DeckAPI, "/api/deck/<string:deck_name>")
 api.add_resource(DeckListAPI, "/api/deck")
-api.add_resource(UserAPI, "/api/user/<string:user_id>")
+api.add_resource(DeckAPI,     "/api/deck/<string:deck_name>")
+api.add_resource(CardAPI,     "/api/deck/<string:deck_name>/card/<int:card_no>")
 api.add_resource(UserListAPI, "/api/user")
+api.add_resource(UserAPI,     "/api/user/<string:user_id>")
+api.add_resource(RecordAPI,   "/api/user/<string:user_id>/deck/<string:deck_name>")
+api.add_resource(UserDataAPI, "/api/user/<string:user_id>/deck/<string:deck_name>/card/<int:card_no>")
 
 
 
