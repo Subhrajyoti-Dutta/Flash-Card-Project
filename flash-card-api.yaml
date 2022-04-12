@@ -246,7 +246,7 @@ paths:
                   type: string
                 user_id:
                   type: string
-                user_pwd:
+                password:
                   type: string
         description: order placed for purchasing the pet
         required: true
@@ -317,8 +317,10 @@ paths:
               properties:
                 user_name:
                   type: string
+                password:
+                  type: string
         description: order placed for purchasing the pet
-        required: true
+        required: false
     post:
       tags:
         - developers

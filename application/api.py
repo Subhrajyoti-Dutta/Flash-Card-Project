@@ -32,7 +32,7 @@ class DeckListAPI(Resource):
 
 		args = request.parse_args()
 
-		deck_name = args.get(deck_name)
+		deck_name = args.get("deck_name")
 
 		if Decks.query.filter_by(deck_name = deck_name).first():
 			raise DeckError(
@@ -122,19 +122,18 @@ class DeckAPI(Resource):
 			)
 
 		deck = DeckList.get(deck_name)
-		card = deck.query.filter_by(card_no=card_no).first()
+		card = deck.query.filter_by(card_word=card_word).first()
 
 		if card is not None:
 			raise CardError(
 				status_code = 404,
 				error_code = "CE1002"
 			)
-
-		deck(
+		new_card = deck(
 			card_word = card_word,
 			card_ans = card_ans
 		)
-
+		db.session.add(new_card)
 		db.session.commit()
 
 		return {
@@ -212,8 +211,6 @@ class CardAPI(Resource):
 			"card_ans" : card_ans
 		}, 200
 
-	
-
 class UserListAPI(Resource):
 	def get(self):
 		users = Users.query.all()
@@ -223,17 +220,63 @@ class UserListAPI(Resource):
 				{
 					"user_id" : user.user_id,
 					"user_name" : user.user_name,
-					"permissions" : user.permissions
 				}
 				for user in users
 			]
 		}, 200
 	def post(self):
-		pass
+		request = reqparse.RequestParser()
+		request.add_argument("user_id")
+		request.add_argument("password")
+		request.add_argument("user_name")
+
+		args = request.parse_args()
+
+		user_name = args.get("user_name")
+		user_id = args.get("user_id")
+		password = args.get("password")
+
+
+		if user_name is None or password is None:
+			raise UserError(
+				status_code = 400,
+				error_code = "UE1004",
+			)
+
+		if Users.query.filter_by(user_id = user_id).first():
+			raise UserError(
+				status_code = 404,
+				error_code = "UE1002",
+			)
+
+		if len(password) < 4:
+			raise UserError(
+				status_code = 400,
+				error_code = "UE1005",
+			)
+
+		new_user = Users(
+			user_id   = user_id,
+			user_name = user_name,
+			user_pwd  = password,
+			joining_date = datetime.date.today()
+		)
+
+
+		db.session.add(new_user)
+		db.session.commit()
+
+		return {
+			"task" : "Successful",
+			"new_user_id" : user_id,
+			"new_user_name" : user_name,
+			"new_user_password" : password[:2] + (len(password) - 2) * "*"
+		}, 200
 
 class UserAPI(Resource):
 	def get(self, user_id):
 		user = Users.query.filter_by(user_id = user_id).first()
+		# print(Record.query(Record.))
 
 		if user is None:
 			raise UserError(
@@ -243,7 +286,9 @@ class UserAPI(Resource):
 
 		return {
 			"user_id" : user.user_id,
-			"user_name" : user.user_name
+			"user_name" : user.user_name,
+			"permissions" : user.permissions,
+			"joining_date" : user.joining_date.strftime("%Y-%m-%d")
 		}, 200
 
 	def delete(self, user_id):
@@ -269,7 +314,7 @@ class UserAPI(Resource):
 	def put(self, user_id):
 		request = reqparse.RequestParser()
 		request.add_argument("password")
-		request.add_argument("name")
+		request.add_argument("user_name")
 
 		args = request.parse_args()
 
@@ -281,7 +326,7 @@ class UserAPI(Resource):
 				error_code = "UE1001",
 			)
 
-		user_name = args.get("name") if args.get("name") is not None else update_user.user_name
+		user_name = args.get("user_name") if args.get("user_name") is not None else update_user.user_name
 		user_pwd = args.get("password") if args.get("password") is not None else update_user.user_pwd
 
 		update_user.user_name = user_name
@@ -298,47 +343,48 @@ class UserAPI(Resource):
 
 	def post(self, user_id):
 		request = reqparse.RequestParser()
-		request.add_argument("password")
-		request.add_argument("name")
+		request.add_argument("deck_name")
+		request.add_argument("last_review")
 
 		args = request.parse_args()
 
-		if Users.query.filter_by(user_id = user_id).first():
+		deck_name = args.get("deck_name")
+		last_reviewed = args.get("last_review")
+
+		user = Users.query.filter_by(user_id = user_id).first()
+
+		if user is None:
 			raise UserError(
 				status_code = 404,
-				error_code = "UE1002",
+				error_code = "UE1001",
 			)
 
-		user_name = args.get("name")
-		password = args.get("password")
-
-		if user_name is None or password is None:
-			raise UserError(
-				status_code = 400,
-				error_code = "UE1004",
+		deck = Decks.query.filter_by(deck_name = deck_name).first()
+		
+		if deck is None:
+			raise DeckError(
+				status_code = 404,
+				error_code = "DE1001"
 			)
 
-		if len(password) < 4:
-			raise UserError(
-				status_code = 400,
-				error_code = "UE1005",
-			)
 
-		new_user = Users(
-			user_id   = user_id,
-			user_name = user_name,
-			user_pwd  = password
+		if last_reviewed is None:
+			last_reviewed = datetime.date.today()
+		
+		new_record = Record(
+			user_id = user_id,
+			deck_no = deck.deck_no,
+			last_review = last_reviewed
 		)
 
-
-		db.session.add(new_user)
+		db.session.add(new_record)
 		db.session.commit()
 
 		return {
 			"task" : "Successful",
-			"new_user_id" : user_id,
-			"new_user_name" : user_name,
-			"new_user_password" : password[:2] + (len(password) - 2) * "*"
+			"user_id" : user_id,
+			"deck_name" : deck_name,
+			"last_review" : last_reviewed.strftime("%Y-%m-%d")
 		}, 200
 
 class RecordAPI(Resource):

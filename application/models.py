@@ -13,15 +13,16 @@ class Users(db.Model):
 	user_id = db.Column(db.String, primary_key = True, unique = True, nullable = False)
 	user_pwd = db.Column(db.String, nullable = False)
 	user_name = db.Column(db.String, nullable = False)
+	joining_date = db.Column(db.Date, nullable = False)
 	permissions = db.Column(db.String, default = 'User', nullable = False)
 
 class Decks(db.Model):
-	__tablename__ = 'deck'
-	deck_no = db.Column(db.Integer, primary_key=True,autoincrement=True)
-	deck_name = db.Column(db.String, unique = True)
+	__tablename__   = 'deck'
+	deck_no         = db.Column(db.Integer, primary_key=True,autoincrement=True)
+	deck_name       = db.Column(db.String,  unique = True)
 	number_of_cards = db.Column(db.Integer, default = 1)
-	creator = db.Column(db.String, default = 'Admin')
-	creation_date = db.Column(db.Date)
+	creator         = db.Column(db.String,  default = 'Admin')
+	creation_date   = db.Column(db.Date)
 
 class Record(db.Model):
 	__tablename__ = 'record'
@@ -39,9 +40,9 @@ class UserData(db.Model):
 def newDeckMaker(deckName):
 	class Deck(db.Model):
 		__tablename__ = deckName
-		card_no = db.Column(db.Integer,autoincrement=True)
-		card_word = db.Column(db.String,primary_key=True)
-		card_ans = db.Column(db.String)
+		card_no = db.Column(db.Integer,primary_key=True,autoincrement=True,nullable=False)
+		card_word = db.Column(db.String, unique=True, nullable=False)
+		card_ans = db.Column(db.String, nullable=False)
 	db.create_all()
 	return Deck
 

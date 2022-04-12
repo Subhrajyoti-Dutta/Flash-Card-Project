@@ -8,3 +8,4 @@ db.create_all()
 @app.route("/", methods=["GET"])
 def index():
 	return render_template('login.html')
+
